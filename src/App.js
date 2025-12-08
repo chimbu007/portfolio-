@@ -407,7 +407,7 @@ footer {
       desc: "Course Overview & Learning Path",
       demo: "https://course-page-delta.vercel.app/", 
     },
-    { id: 4, title: "Hospital Data Analytics", 
+    { id: 4, title: "Hospital Data ", 
       desc: "A responsive dashboard to monitor live hospital data and generate chart based insights",
       demo: "https://zidio-project-sage.vercel.app/", 
     },
