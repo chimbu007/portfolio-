@@ -395,7 +395,7 @@ footer {
       id: 1,
       title: "Patient Monitoring",
       desc: "Smart patient monitoring system designed for precision, efficiency & enhanced clinical support.",
-      demo: "https://patient-monitor-b5wu47v0y-chimbu007s-projects.vercel.app/",
+      demo: "https://patient-monitor-seven.vercel.app/",
     },
     {
       id: 2,
