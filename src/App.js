@@ -411,10 +411,7 @@ footer {
       desc: "A responsive dashboard to monitor live hospital data and generate chart based insights",
       demo: "https://zidio-project-sage.vercel.app/", 
     },
-    {id: 4, title: "Hospital Data Analytics", 
-    desc: "A responsive dashboard to monitor live hospital data and generate chart based insights",
-    demo: "https://zidio-project-sage.vercel.app/", 
-  },
+  
   ];
 
   return (
