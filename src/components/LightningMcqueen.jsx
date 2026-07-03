@@ -215,6 +215,13 @@ const LightningMcqueen = () => {
       const carEl = carRef.current;
       if (!carEl) return;
 
+      // Hide McQueen on mobile viewports (< 768px) to prevent overlapping bottom HUD elements
+      if (winW < 768) {
+        carEl.style.opacity = '0';
+        carEl.style.pointerEvents = 'none';
+        return;
+      }
+
       // Toggle container visibility (use opacity & pointer-events to prevent layout reflows)
       if (scrollY > 120) {
         carEl.style.opacity = '1';

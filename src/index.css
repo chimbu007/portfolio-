@@ -458,3 +458,18 @@ h1, h2, h3, h4, h5, h6 {
     flex: 0 0 auto;
   }
 }
+
+/* Contact Grid Layout - Premium Proportion on Desktop, Stacked on Mobile */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1.3fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+@media (max-width: 968px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}

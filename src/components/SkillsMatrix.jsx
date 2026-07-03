@@ -102,10 +102,10 @@ const SkillsMatrix = () => {
             }}
           >
             {/* Console Header */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', borderBottom: '1px solid rgba(255,255,255,0.06)', paddingBottom: '1rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '2rem', borderBottom: '1px solid rgba(255,255,255,0.06)', paddingBottom: '1rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
                 <Terminal size={16} style={{ color: 'var(--accent-gold)' }} />
-                <span className="skills-console-header-text" style={{ fontFamily: 'var(--font-mono)', color: '#ffffff', fontWeight: '600' }}>
+                <span className="skills-console-header-text" style={{ fontFamily: 'var(--font-mono)', color: '#ffffff', fontWeight: '600', fontSize: 'clamp(0.7rem, 2.5vw, 0.9rem)', wordBreak: 'break-all' }}>
                   MODULE://{SKILLS_DATA[activeCategory].category.toUpperCase().replace(/\s/g, '_')}
                 </span>
               </div>
@@ -127,7 +127,7 @@ const SkillsMatrix = () => {
                   }}
                 >
                   {/* Skill Label (Using high contrast white/gold on dark Console background) */}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.6rem', fontSize: '0.95rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.6rem', gap: '0.5rem', fontSize: 'clamp(0.8rem, 2.2vw, 0.95rem)' }}>
                     <span 
                       style={{ 
                         color: hoveredSkill === index ? 'var(--accent-gold)' : '#ffffff',

@@ -100,7 +100,7 @@ const Contact = () => {
           </p>
         </div>
 
-        <div className="grid-2" style={{ gap: '3rem', alignItems: 'stretch' }}>
+        <div className="contact-grid" style={{ alignItems: 'stretch' }}>
           
           {/* Coordinates & Templates */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', textAlign: 'left' }}>
@@ -157,13 +157,20 @@ const Contact = () => {
                       borderRadius: '4px',
                       color: activeTemplate === key ? '#ffffff' : 'var(--text-secondary)',
                       fontFamily: 'var(--font-mono)',
-                      fontSize: '0.8rem',
+                      fontSize: 'clamp(0.7rem, 2.2vw, 0.8rem)',
                       textAlign: 'left',
                       cursor: 'pointer',
                       transition: 'all 0.2s ease',
                       display: 'flex',
+                      flexWrap: 'wrap',
+                      gap: '0.5rem',
                       alignItems: 'center',
-                      justifyContent: 'space-between'
+                      justifyContent: 'space-between',
+                      width: '100%',
+                      boxSizing: 'border-box',
+                      whiteSpace: 'normal',
+                      wordBreak: 'break-word',
+                      lineHeight: '1.4'
                     }}
                     onMouseEnter={(e) => {
                       if (activeTemplate !== key) e.currentTarget.style.borderColor = 'rgba(197, 168, 128, 0.4)';
