@@ -469,7 +469,14 @@ h1, h2, h3, h4, h5, h6 {
 
 @media (max-width: 968px) {
   .contact-grid {
-    grid-template-columns: 1fr;
-    gap: 2rem;
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+}
+
+/* Extra bottom spacing on mobile contact section to allow scrolling past the fixed AI prompt bar */
+@media (max-width: 768px) {
+  #contact {
+    padding-bottom: 16rem !important;
   }
 }

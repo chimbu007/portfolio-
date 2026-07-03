@@ -244,7 +244,6 @@ function App() {
 
       {/* --- SCROLLABLE PORTFOLIO DETAILS ZONE (Standard Flow) --- */}
       <main 
-        className="content-wrapper"
         style={{
           position: 'relative',
           zIndex: 10,
@@ -259,7 +258,8 @@ function App() {
 
         {/* About Intro Card (Scroll-revealed, dynamic stats count-ups) */}
         <section id="about-section" style={{ padding: '4rem 0 3rem', position: 'relative', zIndex: 1 }}>
-          <ScrollReveal>
+          <div className="content-wrapper">
+            <ScrollReveal>
             <div className="glass-panel about-panel" style={{ textAlign: 'left', maxWidth: '800px', margin: '0 auto' }}>
               <h2 style={{ fontSize: 'clamp(1.8rem, 5vw, 2.5rem)', marginBottom: '1.5rem', fontFamily: 'var(--font-display)' }}>
                 About <span className="text-gradient">Chimbu</span>
@@ -298,6 +298,7 @@ function App() {
               </div>
             </div>
           </ScrollReveal>
+          </div>
         </section>
 
         <div className="glowing-divider" />
