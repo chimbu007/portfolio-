@@ -251,23 +251,24 @@ const AIPromptBar = ({ onCommandTrigger }) => {
             className="prompt-suggestion-btn"
             onClick={() => executeQuickCommand(item)}
             style={{
-              background: 'rgba(255, 255, 255, 0.04)',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
-              color: 'rgba(255, 255, 255, 0.65)',
-              fontSize: '0.75rem',
-              padding: '0.2rem 0.6rem',
-              borderRadius: '12px',
+              background: 'rgba(255, 255, 255, 0.08)',
+              border: '1px solid rgba(255, 255, 255, 0.18)',
+              color: '#ffffff',
+              fontSize: '0.85rem',
+              padding: '0.4rem 0.9rem',
+              borderRadius: '16px',
               cursor: 'pointer',
               fontFamily: 'var(--font-mono)',
+              fontWeight: 600,
               transition: 'all 0.2s ease',
             }}
             onMouseEnter={(e) => {
-              e.target.style.borderColor = 'rgba(255, 255, 255, 0.22)';
-              e.target.style.background = 'rgba(255, 255, 255, 0.08)';
+              e.target.style.borderColor = 'rgba(255, 255, 255, 0.45)';
+              e.target.style.background = 'rgba(255, 255, 255, 0.15)';
             }}
             onMouseLeave={(e) => {
-              e.target.style.borderColor = 'rgba(255, 255, 255, 0.08)';
-              e.target.style.background = 'rgba(255, 255, 255, 0.04)';
+              e.target.style.borderColor = 'rgba(255, 255, 255, 0.18)';
+              e.target.style.background = 'rgba(255, 255, 255, 0.08)';
             }}
           >
             {item}

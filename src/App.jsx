@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Mail, Check } from 'lucide-react';
-import ShatterStage from './components/ShatterStage';
+import { Mail, Globe, MapPin, Send, Check, Download } from 'lucide-react';
 import MarbleStatue from './components/MarbleStatue';
-import AIPromptBar from './components/AIPromptBar';
+import ShatterStage from './components/ShatterStage';
 import SkillsMatrix from './components/SkillsMatrix';
+import ExperienceTimeline from './components/ExperienceTimeline';
 import ProjectsGrid from './components/ProjectsGrid';
 import Contact from './components/Contact';
-import ScrollReveal from './components/ScrollReveal';
+import AIPromptBar from './components/AIPromptBar';
 import LightningMcqueen from './components/LightningMcqueen';
+import ScrollReveal from './components/ScrollReveal';
 
 // Dynamic Decelerating Stats Counter
 const AnimatedCounter = ({ value, suffix = "" }) => {
@@ -116,6 +117,27 @@ function App() {
           CHIMBU
         </div>
 
+        {/* Value Proposition Subheading at the bottom of Hero */}
+        <div
+          style={{
+            position: 'absolute',
+            bottom: '7%',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 10,
+            textAlign: 'center',
+            width: '90%',
+            maxWidth: '680px'
+          }}
+        >
+          <div style={{ fontSize: 'clamp(0.85rem, 2.5vw, 1.05rem)', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--accent-gold)', marginBottom: '0.5rem', fontFamily: 'var(--font-mono)' }}>
+            AI-Integrated Full Stack Engineer
+          </div>
+          <p style={{ fontSize: 'clamp(0.9rem, 2.8vw, 1.2rem)', color: 'var(--text-secondary)', lineHeight: '1.5', fontFamily: 'var(--font-sans)', fontWeight: 500 }}>
+            Building production-ready applications with modern UI and intelligent agent automation.
+          </p>
+        </div>
+
         {/* Centered Isolated Marble Statue */}
         <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 3, pointerEvents: 'none' }}>
           <MarbleStatue />
@@ -199,46 +221,80 @@ function App() {
             Design. Development. Intelligence.
           </div>
 
-          {/* Copy Email */}
-          <button
-            onClick={handleCopyEmail}
-            className="copy-email-btn"
-            style={{
-              padding: '0.5rem 1rem',
-              background: 'rgba(0, 0, 0, 0.03)',
-              border: '1px solid rgba(0, 0, 0, 0.06)',
-              borderRadius: '20px',
-              fontFamily: 'var(--font-sans)',
-              fontSize: '0.75rem',
-              fontWeight: 600,
-              color: 'var(--text-primary)',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.4rem',
-              transition: 'all 0.2s ease'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = 'rgba(0,0,0,0.15)';
-              e.currentTarget.style.background = 'rgba(0,0,0,0.06)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = 'rgba(0,0,0,0.06)';
-              e.currentTarget.style.background = 'rgba(0,0,0,0.03)';
-            }}
-          >
-            {copied ? (
-              <>
-                <Check size={12} />
-                <span>COPIED</span>
-              </>
-            ) : (
-              <>
-                <Mail size={12} />
-                <span>COPY EMAIL</span>
-              </>
-            )}
-          </button>
+          {/* Action Buttons Container */}
+          <div style={{ display: 'flex', gap: '0.6rem', alignItems: 'center' }}>
+            {/* Download Resume */}
+            <a
+              href="/resume.pdf"
+              download="Chimbu_Resume.pdf"
+              style={{
+                textDecoration: 'none',
+                padding: '0.5rem 1rem',
+                background: 'var(--accent-gold)',
+                border: '1px solid rgba(0, 0, 0, 0.06)',
+                borderRadius: '20px',
+                fontFamily: 'var(--font-sans)',
+                fontSize: '0.75rem',
+                fontWeight: 700,
+                color: '#000000',
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.4rem',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.filter = 'brightness(1.08)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.filter = 'none';
+              }}
+            >
+              <Download size={12} />
+              <span>RESUME</span>
+            </a>
+
+            {/* Copy Email */}
+            <button
+              onClick={handleCopyEmail}
+              className="copy-email-btn"
+              style={{
+                padding: '0.5rem 1rem',
+                background: 'rgba(0, 0, 0, 0.03)',
+                border: '1px solid rgba(0, 0, 0, 0.06)',
+                borderRadius: '20px',
+                fontFamily: 'var(--font-sans)',
+                fontSize: '0.75rem',
+                fontWeight: 600,
+                color: 'var(--text-primary)',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.4rem',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(0,0,0,0.15)';
+                e.currentTarget.style.background = 'rgba(0,0,0,0.06)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(0,0,0,0.06)';
+                e.currentTarget.style.background = 'rgba(0,0,0,0.03)';
+              }}
+            >
+              {copied ? (
+                <>
+                  <Check size={12} />
+                  <span>COPIED</span>
+                </>
+              ) : (
+                <>
+                  <Mail size={12} />
+                  <span>COPY EMAIL</span>
+                </>
+              )}
+            </button>
+          </div>
         </div>
       </header>
 
@@ -307,6 +363,15 @@ function App() {
         <section id="skills-section" style={{ position: 'relative', zIndex: 1 }}>
           <ScrollReveal delay={100}>
             <SkillsMatrix />
+          </ScrollReveal>
+        </section>
+
+        <div className="glowing-divider" />
+
+        {/* Dedicated Experience Timeline (Scroll-revealed) */}
+        <section id="experience-section" style={{ position: 'relative', zIndex: 1 }}>
+          <ScrollReveal delay={100}>
+            <ExperienceTimeline />
           </ScrollReveal>
         </section>
 
