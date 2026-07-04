@@ -64,8 +64,8 @@ const TiltCard = ({ children, style = {}, className = "", maxTilt = 12 }) => {
   return (
     <div
       ref={cardRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
+      onMouseMove={isMobile ? undefined : handleMouseMove}
+      onMouseLeave={isMobile ? undefined : handleMouseLeave}
       className={`glass-panel ${className}`}
       style={{
         ...style,

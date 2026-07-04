@@ -173,10 +173,14 @@ const Contact = () => {
                       lineHeight: '1.4'
                     }}
                     onMouseEnter={(e) => {
-                      if (activeTemplate !== key) e.currentTarget.style.borderColor = 'rgba(197, 168, 128, 0.4)';
+                      if (window.innerWidth >= 768 && activeTemplate !== key) {
+                        e.currentTarget.style.borderColor = 'rgba(197, 168, 128, 0.4)';
+                      }
                     }}
                     onMouseLeave={(e) => {
-                      if (activeTemplate !== key) e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)';
+                      if (window.innerWidth >= 768 && activeTemplate !== key) {
+                        e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)';
+                      }
                     }}
                   >
                     <span>{`[${value.label}]`}</span>
