@@ -64,12 +64,9 @@ const LightningMcqueen = () => {
   useEffect(() => {
     const handleResize = () => {
       const w = window.innerWidth;
-      if (w < 480) {
-        setCarWidth(120);
-        setCarHeight(67);
-      } else if (w < 768) {
-        setCarWidth(170);
-        setCarHeight(95);
+      if (w < 768) {
+        setCarWidth(100);
+        setCarHeight(56);
       } else {
         setCarWidth(290);
         setCarHeight(163);
@@ -216,13 +213,6 @@ const LightningMcqueen = () => {
       const carEl = carRef.current;
       if (!carEl) return;
 
-      // Hide McQueen on mobile viewports (< 768px) to prevent overlapping bottom HUD elements
-      if (winW < 768) {
-        carEl.style.opacity = '0';
-        carEl.style.pointerEvents = 'none';
-        return;
-      }
-
       // Toggle container visibility (use opacity & pointer-events to prevent layout reflows)
       if (scrollY > 120) {
         carEl.style.opacity = '1';
@@ -236,10 +226,8 @@ const LightningMcqueen = () => {
       // Calculate translation coordinates
       
       let currentCarWidth = 290;
-      if (winW < 480) {
-        currentCarWidth = 120;
-      } else if (winW < 768) {
-        currentCarWidth = 170;
+      if (winW < 768) {
+        currentCarWidth = 100;
       }
 
       const isMobileDevice = winW < 768;
@@ -247,7 +235,7 @@ const LightningMcqueen = () => {
       const midX = winW * 0.45;
       const endX = 0;
 
-      const startY = isMobileDevice ? 100 : 180;
+      const startY = isMobileDevice ? -40 : 180;
       const midY = isMobileDevice ? -150 : -280;
       const endY = 0;
 
@@ -339,8 +327,8 @@ const LightningMcqueen = () => {
       onMouseLeave={handleMouseLeave}
       style={{
         position: 'fixed',
-        bottom: '95px',
-        left: '30px', // Parked on the left side of the page
+        bottom: window.innerWidth < 768 ? '145px' : '95px',
+        left: window.innerWidth < 768 ? '10px' : '30px', // Parked on the left side of the page
         width: `${carWidth}px`,
         height: `${carHeight}px`,
         zIndex: 9999,
