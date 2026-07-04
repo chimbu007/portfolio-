@@ -475,8 +475,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Extra bottom spacing on mobile contact section to allow scrolling past the fixed AI prompt bar */
-@media (max-width: 768px) {
+@media (max-width: 968px) {
   #contact {
-    padding-bottom: 16rem !important;
+    padding-bottom: 18rem !important;
   }
 }

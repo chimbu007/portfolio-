@@ -206,6 +206,7 @@ const LightningMcqueen = () => {
 
     const updatePosition = () => {
       const scrollY = window.scrollY;
+      const winW = window.innerWidth;
       const startScroll = 180;
       const endScroll = 1200;
       const scrollRange = endScroll - startScroll;
@@ -233,7 +234,6 @@ const LightningMcqueen = () => {
       }
 
       // Calculate translation coordinates
-      const winW = window.innerWidth;
       
       let currentCarWidth = 290;
       if (winW < 480) {
