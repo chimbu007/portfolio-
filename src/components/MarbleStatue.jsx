@@ -2,27 +2,85 @@ import React, { useEffect, useState } from 'react';
 import statueImg from '../assets/chimbu_statue.png';
 
 const MarbleStatue = () => {
-  const [rotation, setRotation] = useState({ x: 0, y: 0 });
+  const [processedSrc, setProcessedSrc] = useState(null);
 
-  // Dynamically map global mouse movement to 3D rotation angles
+  // Clean background eraser: scans and flood-fills the off-white boundaries
   useEffect(() => {
-    const handleMouseMove = (e) => {
-      const w = window.innerWidth;
-      const h = window.innerHeight;
+    const img = new Image();
+    img.src = statueImg;
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
       
-      // Compute delta offset from screen center (-0.5 to 0.5)
-      const mouseX = (e.clientX / w) - 0.5;
-      const mouseY = (e.clientY / h) - 0.5;
-      
-      // Map to 3D rotation limits (max 18 degrees tilt)
-      setRotation({
-        x: -mouseY * 18,
-        y: mouseX * 18
-      });
-    };
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
 
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+      try {
+        const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imgData.data;
+        const w = canvas.width;
+        const h = canvas.height;
+
+        // Flood-fill background extraction starting from the 4 corners
+        const visited = new Uint8Array(w * h);
+        const queue = [];
+
+        const addSeed = (x, y) => {
+          const idx = y * w + x;
+          if (!visited[idx]) {
+            visited[idx] = 1;
+            queue.push([x, y]);
+          }
+        };
+
+        // Add seeds along all four edges of the image boundary
+        for (let x = 0; x < w; x++) {
+          addSeed(x, 0);
+          addSeed(x, h - 1);
+        }
+        for (let y = 0; y < h; y++) {
+          addSeed(0, y);
+          addSeed(w - 1, y);
+        }
+
+        while (queue.length > 0) {
+          const [cx, cy] = queue.shift();
+          const pixelIdx = (cy * w + cx) * 4;
+          const r = data[pixelIdx];
+          const g = data[pixelIdx + 1];
+          const b = data[pixelIdx + 2];
+
+          // Match off-white studio backgrounds (RGB > 240)
+          if (r > 240 && g > 240 && b > 240) {
+            data[pixelIdx + 3] = 0; // turn transparent
+
+            // Check 4 cardinal neighbors
+            const neighbors = [
+              [cx + 1, cy],
+              [cx - 1, cy],
+              [cx, cy + 1],
+              [cx, cy - 1]
+            ];
+
+            for (const [nx, ny] of neighbors) {
+              if (nx >= 0 && nx < w && ny >= 0 && ny < h) {
+                const nidx = ny * w + nx;
+                if (!visited[nidx]) {
+                  visited[nidx] = 1;
+                  queue.push([nx, ny]);
+                }
+              }
+            }
+          }
+        }
+
+        ctx.putImageData(imgData, 0, 0);
+        setProcessedSrc(canvas.toDataURL());
+      } catch (err) {
+        console.warn("MarbleStatue: Programmatic background removal bypassed (CORS/Canvas Security):", err);
+      }
+    };
   }, []);
 
   return (
@@ -30,156 +88,70 @@ const MarbleStatue = () => {
       style={{
         position: 'relative',
         width: '100%',
-        height: '100%',
+        height: '100%', // Take full height of parent block to prevent clipping
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
         zIndex: 3,
         pointerEvents: 'none'
       }}
     >
-      {/* Floating animation container */}
-      <div
-        style={{
-          position: 'relative',
-          animation: 'floatHologram 5s ease-in-out infinite',
-          display: 'flex',
+      <div 
+        style={{ 
+          position: 'relative', 
+          width: 'min(420px, 80vw)', 
+          aspectRatio: '3/4', 
+          display: 'flex', 
+          flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center'
         }}
       >
-        {/* 3D Tilting Frame */}
-        <div 
-          style={{ 
-            position: 'relative', 
-            width: '320px', 
-            height: '320px', 
-            display: 'flex', 
-            alignItems: 'center',
-            justifyContent: 'center',
-            transform: `perspective(1000px) rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)`,
-            transition: 'transform 0.12s ease-out',
-            willChange: 'transform'
+        {/* Softbox reflection highlight overlay */}
+        <div
+          style={{
+            position: 'absolute',
+            top: '5%',
+            left: '15%',
+            width: '70%',
+            height: '80%',
+            background: 'radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.22) 0%, transparent 60%)',
+            pointerEvents: 'none',
+            mixBlendMode: 'overlay',
+            zIndex: 2,
+            borderRadius: '50%'
           }}
-        >
-          {/* Outer Rotating HUD telemetry ring (dashed gold) */}
-          <div
-            style={{
-              position: 'absolute',
-              width: '300px',
-              height: '300px',
-              borderRadius: '50%',
-              border: '1.5px dashed rgba(197, 168, 128, 0.45)',
-              animation: 'rotateCW 25s linear infinite',
-              pointerEvents: 'none'
-            }}
-          />
+        />
 
-          {/* Inner Rotating HUD telemetry ring (dotted gold) */}
-          <div
-            style={{
-              position: 'absolute',
-              width: '272px',
-              height: '272px',
-              borderRadius: '50%',
-              border: '1px dotted rgba(197, 168, 128, 0.3)',
-              animation: 'rotateCCW 18s linear infinite',
-              pointerEvents: 'none'
-            }}
-          />
+        {/* Display either processed transparent image or fallback to raw img */}
+        <img
+          src={processedSrc || statueImg}
+          alt="Chimbu Marble Statue"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'contain',
+            pointerEvents: 'none',
+            zIndex: 1
+          }}
+        />
 
-          {/* Ambient backlight glow ring behind the avatar */}
-          <div
-            style={{
-              position: 'absolute',
-              width: '180px',
-              height: '180px',
-              borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(197, 168, 128, 0.28) 0%, transparent 70%)',
-              filter: 'blur(15px)',
-              pointerEvents: 'none',
-              zIndex: 0
-            }}
-          />
-
-          {/* Gold glowing circular avatar card */}
-          <div
-            style={{
-              position: 'relative',
-              width: '220px',
-              height: '220px',
-              borderRadius: '50%',
-              border: '3px solid var(--accent-gold)',
-              boxShadow: '0 0 35px rgba(197, 168, 128, 0.35)',
-              overflow: 'hidden',
-              background: '#0d0d11',
-              zIndex: 1,
-              pointerEvents: 'none'
-            }}
-          >
-            {/* Color Portrait Image */}
-            <img
-              src={statueImg}
-              alt="Chidambaram S Portrait"
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                transform: 'scale(1.05)',
-                display: 'block'
-              }}
-            />
-
-            {/* Futuristic cyber scanline scan overlay */}
-            <div
-              style={{
-                position: 'absolute',
-                left: 0,
-                width: '100%',
-                height: '6px',
-                background: 'linear-gradient(180deg, transparent, rgba(197, 168, 128, 0.6) 50%, transparent)',
-                animation: 'scanlineMove 3s linear infinite',
-                pointerEvents: 'none'
-              }}
-            />
-
-            {/* Vignette shadow cover */}
-            <div
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                boxShadow: 'inset 0 0 20px rgba(0,0,0,0.85)',
-                borderRadius: '50%',
-                pointerEvents: 'none'
-              }}
-            />
-          </div>
-        </div>
+        {/* Pedestal drop shadow */}
+        <div
+          style={{
+            position: 'absolute',
+            bottom: '1%', // Repositioned to align perfectly with the pedestal bottom
+            left: '50%',
+            transform: 'translateX(-50%)',
+            width: '62%',
+            height: '35px',
+            background: 'radial-gradient(ellipse, rgba(0, 0, 0, 0.08) 0%, rgba(0,0,0,0.01) 60%, transparent 100%)',
+            pointerEvents: 'none',
+            zIndex: 0
+          }}
+        />
       </div>
-
-      {/* Inject custom CSS keyframes */}
-      <style>{`
-        @keyframes floatHologram {
-          0% { transform: translateY(0px); }
-          50% { transform: translateY(-15px); }
-          100% { transform: translateY(0px); }
-        }
-        @keyframes rotateCW {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        @keyframes rotateCCW {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(-360deg); }
-        }
-        @keyframes scanlineMove {
-          0% { top: -10%; }
-          100% { top: 110%; }
-        }
-      `}</style>
     </div>
   );
 };

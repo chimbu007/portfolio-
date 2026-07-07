@@ -117,27 +117,6 @@ function App() {
           CHIMBU
         </div>
 
-        {/* Value Proposition Subheading at the bottom of Hero */}
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '7%',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            zIndex: 10,
-            textAlign: 'center',
-            width: '90%',
-            maxWidth: '680px'
-          }}
-        >
-          <div style={{ fontSize: 'clamp(0.85rem, 2.5vw, 1.05rem)', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--accent-gold)', marginBottom: '0.5rem', fontFamily: 'var(--font-mono)' }}>
-            AI-Integrated Full Stack Engineer
-          </div>
-          <p style={{ fontSize: 'clamp(0.9rem, 2.8vw, 1.2rem)', color: 'var(--text-secondary)', lineHeight: '1.5', fontFamily: 'var(--font-sans)', fontWeight: 500 }}>
-            Building production-ready applications with modern UI and intelligent agent automation.
-          </p>
-        </div>
-
         {/* Centered Isolated Marble Statue */}
         <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 3, pointerEvents: 'none' }}>
           <MarbleStatue />
